@@ -268,15 +268,28 @@ def get_hh_vacancies(jobs_list):
                     except TimeoutException:
                         salary = "N/A"
 
-
-                    # Extract skills from description
+                    skills_from_page = []
+                    try:
+                        skill_elements = driver1.find_elements(By.XPATH, "//li[@data-qa='skills-element']")
+                        skills_from_page = [el.text.strip() for el in skill_elements if el.text.strip()]
+                        cleaned_skills = []
+                        for skill in skills_from_page:
+                            if skill in tools_list:
+                                desc_text += f" {skill} "
+                        
+                        
+                    except Exception as e:
+                        print(f"Could not extract skills-element: {e}")
                     matched_tools = find_tools_in_text(desc_text)
-                    skills = ", ".join(matched_tools) if matched_tools else "N/A"
-
-                    # Clean location
+                    all_skills = list(set(matched_tools))
+                    
+                    skills = ", ".join(sorted(all_skills)) if all_skills else ""
+                    
                     if "," in location:
                         location = location.split(",")[0]
-
+                    new_title = identify_title(title, all_skills)[0]
+                    if new_title != "unknown":
+                        job = new_title
                     # Save to CSV
                     try:
                         job_id = driver1.current_url.split("?")[0].split("/")[-1]

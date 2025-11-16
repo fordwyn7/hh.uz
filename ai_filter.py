@@ -1,7 +1,9 @@
+
+
 import google.generativeai as genai
 import time
 
-key = "YOUR_API_KEY_HERE"
+key = "AIzaSyBwIBHkBdS3Obv-Al9DnSHuvRwh1sdjuBI"
 genai.configure(api_key=key)
 
 
@@ -48,7 +50,7 @@ def identify_title(titles, skills):
     """
     try:
         # Create a generative model
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("models/gemini-2.5-flash")
 
         # Generate content using the prompt
         # print(titles)
@@ -56,7 +58,6 @@ def identify_title(titles, skills):
         output_text = response.text.strip()
         output_list = [item.strip() for item in output_text.split(",")]
         # print(output_list) # uncomment for debugging
-        print(len(output_list))
         time.sleep(1)
         return output_list
 

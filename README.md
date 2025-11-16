@@ -1,1 +1,0 @@
-AI filter has not applied yet!!!
